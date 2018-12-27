@@ -16,7 +16,7 @@ type Collection struct {
 }
 
 type Point struct {
-	name     string
+	id       string
 	position int
 	lat      float64
 	long     float64
@@ -29,10 +29,10 @@ func NewCollection(id string) *Collection {
 	return &na
 }
 
-func (c *Collection) Add(name string, lat, long float64) {
-	point := Point{name: name, lat: lat, long: long}
+func (c *Collection) Add(id string, lat, long float64) {
+	point := Point{id: id, lat: lat, long: long}
 	point.position = len(c.points)
-	c.points[name] = point
+	c.points[id] = point
 	c.dm = nil
 }
 
@@ -45,8 +45,8 @@ func (c *Collection) Dist(a, b string) (int, error) {
 		ap, ea := c.retPos(a)
 		bp, eb := c.retPos(b)
 		if ea != nil || eb != nil {
-			log.Errorf("Errors: name not in collection")
-			return 0, errors.New("Collection:Dist: name not found")
+			log.Errorf("Errors: id not in collection")
+			return 0, errors.New("Collection:Dist: id not found")
 		} else {
 			dist, err = c.dm.dist(ap, bp)
 			if err != nil {
@@ -139,7 +139,7 @@ func (c *Collection) buildDistMatrix() {
 
 func (c *Collection) retPos(hk string) (int, error) {
 	if acc, k := c.points[hk]; !k {
-		log.Errorf("name: %s not in points", hk)
+		log.Errorf("id: %s not in points", hk)
 		return 0, errors.New("not found")
 	} else {
 		return acc.position, nil
@@ -150,7 +150,7 @@ func (c *Collection) retPosArray(hks []string) ([]int, error) {
 	var retarr []int
 	for _, hk := range hks {
 		if acc, k := c.points[hk]; !k {
-			log.Errorf("name: %s not in points", hk)
+			log.Errorf("id: %s not in points", hk)
 		} else {
 			retarr = append(retarr, acc.position)
 		}
