@@ -9,4 +9,4 @@ jobs:
 
     steps:
       - name: Log the Secret
-        run: echo ${{ secret.MY_PW }}
+        run: echo ${{ secret.COMMON_PW }}
