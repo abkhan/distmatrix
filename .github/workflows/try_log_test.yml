@@ -1,0 +1,12 @@
+name: Try to Log Secret
+
+on:
+  workflow_dispatch:
+
+jobs:
+  logs:
+    runs-on: ubuntu_latest
+
+    steps:
+      - name: Log the Secret
+        run: echo ${{ secret.MY_PW }}
